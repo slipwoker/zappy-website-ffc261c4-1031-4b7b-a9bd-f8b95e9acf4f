@@ -1,0 +1,688 @@
+<!DOCTYPE html><html lang="he" dir="rtl" data-zappy-site-type="ecommerce"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>שירותים - Kolen</title>
+  <meta name="description" content="שירותים - Kolen provides professional כלי נגינה services. Specializing in Kolen.">
+  <meta name="keywords" content="Kolen, כלי נגינה מקצועיים למוזיקאים, כלי נגינה למתחילים מחיר, חנות כלי נגינה אונליין">
+  <meta name="robots" content="index, follow">
+  
+  <meta property="og:title" content="שירותים - Kolen">
+  <meta property="og:description" content="שירותים - Kolen provides professional כלי נגינה services. Specializing in Kolen.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="שירותים - Kolen">
+  <meta name="twitter:description" content="שירותים - Kolen provides professional כלי נגינה services. Specializing in Kolen.">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+<!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'ffc261c4-1031-4b7b-a9bd-f8b95e9acf4f',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: #333 !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))), .sub-menu:not(:has(li)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .sub-menu.mobile-expanded { max-height: 500px !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: 44px !important; background: transparent !important; border: none !important; cursor: pointer !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-search-panel" id="mobile-search-panel">
+      <div class="search-wrapper">
+        <input type="text" id="mobile-search-input" placeholder="חיפוש מוצרים..." autocomplete="off">
+        <button class="search-submit" id="mobile-search-submit" title="חיפוש">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+        <button class="close-search" id="close-mobile-search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="search-results" id="mobile-search-results"></div>
+    </div>
+  
+<script>window.ZAPPY_WEBSITE_ID = "ffc261c4-1031-4b7b-a9bd-f8b95e9acf4f";window.ZAPPY_API_BASE = (window.location.pathname.includes('/preview') ? "https://api.zappy5.com" : "https://api.zappy5.com");</script>
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+  
+  <button class="phone-header-btn" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+  
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/kolen-logo.webp" alt="Kolen" class="logo" />
+      </a>
+    </div>
+    
+    <ul class="nav-menu" id="navMenu">
+
+    <li class="menu-item-has-children zappy-products-dropdown">
+      <a href="/products">
+        מוצרים
+        <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M6 9l6 6 6-6"></path>
+        </svg>
+      </a>
+      <ul class="sub-menu" id="zappy-nav-category-links">
+        <li><a href="/products">כל המוצרים</a></li>
+        <!-- Categories will be loaded dynamically -->
+      </ul>
+    </li>
+  <li><a href="/instruments">כלים</a></li><li><a href="/services">שירותים</a></li><li><a href="/contact">צור קשר</a></li></ul><div class="nav-ecommerce-icons nav-icons-left"><div class="nav-search-box">
+    <input type="text" class="nav-search-input" id="nav-search-input" placeholder="חיפוש מוצרים..." autocomplete="off">
+    <button class="nav-search-btn" id="nav-search-btn" title="חיפוש">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    </button>
+    <div class="nav-search-results" id="nav-search-results"></div>
+  </div></div><div class="nav-ecommerce-icons nav-icons-right"><button class="nav-search-toggle" id="mobile-search-toggle" title="חיפוש"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg></button></div>
+    
+    
+  </div>
+</nav>
+
+    <nav class="zappy-catalog-menu rtl" id="zappy-catalog-menu" dir="rtl">
+      <div class="catalog-menu-container">
+        <a href="/products" class="catalog-menu-item catalog-menu-all">כל המוצרים</a>
+        <div class="catalog-menu-categories" id="zappy-category-links">
+          <!-- Categories will be loaded dynamically -->
+        </div>
+      </div>
+    </nav>
+  
+  
+  <main>
+    <section class="services-intro-section" data-layout-spec="שירותים-intro">
+  <div class="services-intro-container">
+    <div class="services-intro-title-area">
+      <h1>שיעורים ותחזוקה שישמרו אתכם מנגנים</h1>
+      <p>אנחנו מציעים הדרכה תומכת ותחזוקה קפדנית שמבטיחה שהכלי שלכם תמיד במצב מושלם. בין אם אתם מתחילים את המסע המוזיקלי או מוזיקאים מנוסים, השירותים שלנו מותאמים לצרכים שלכם.</p>
+    </div>
+
+    <div class="services-intro-divider"></div>
+
+    <div class="services-intro-columns">
+      <div class="services-intro-column">
+        <h3>ללומדים</h3>
+        <p>שיעורים פרטיים וקבוצתיים המותאמים לכל רמה. המורים שלנו מביאים ניסיון עשיר ותשוקה אמיתית להעברת הידע. נעבוד יחד על טכניקה, תיאוריה ורפרטואר שמתאים בדיוק לכם.</p>
+      </div>
+
+      <div class="services-intro-column">
+        <h3>לתחזוקת הכלי</h3>
+        <p>שירותי תיקון ותחזוקה מקצועיים שמאריכים את חיי הכלי ומשפרים את איכות הצליל. מכוונון עדין ועד תיקונים מורכבים - אנחנו דואגים שהכלי שלכם יישאר במצב אופטימלי לאורך זמן.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="services-intro-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,40 L0,20 Q100,15 200,20 T400,20 Q500,15 600,20 T800,20 Q900,15 1000,20 T1200,20 L1200,40 Z" fill="var(--bg-light)" stroke="var(--border-light)" stroke-width="1"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="services-section" data-layout-spec="שירותים-services">
+  <div class="services-container">
+    <!-- Lessons Block -->
+    <div class="services-block">
+      <div class="services-block-content">
+        <h2>שיעורי נגינה פרטיים</h2>
+        <p>למד לנגן עם מורים מקצועיים שמתאימים את השיעור בדיוק לרמתך ולמטרות שלך. בין אם אתה מתחיל או מוזיקאי מנוסה, אנחנו כאן כדי לקדם אותך.</p>
+        
+        <div class="services-list">
+          <div class="services-item">
+            <svg data-element-type="icon" data-icon-type="svg" class="services-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <div class="services-item-content">
+              <h3>יסודות למתחילים</h3>
+              <p>למידה נכונה של אחיזה, יציבה וטכניקות בסיס שיבנו את הבסיס המוצק שלך.</p>
+            </div>
+          </div>
+
+          <div class="services-item">
+            <svg data-element-type="icon" data-icon-type="svg" class="services-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 18V5L16 5C16 5 18.5 5 18.5 7.5C18.5 10 16 10 16 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M9 10H16C16 10 18.5 10 18.5 12.5C18.5 15 16 15 16 15H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              <circle cx="9" cy="18" r="2" stroke="currentColor" stroke-width="1.5"></circle>
+            </svg>
+            <div class="services-item-content">
+              <h3>טכניקה ורפרטואר</h3>
+              <p>פיתוח מיומנויות מתקדמות והרחבת הידע המוזיקלי שלך עם יצירות מגוונות.</p>
+            </div>
+          </div>
+
+          <div class="services-item">
+            <svg data-element-type="icon" data-icon-type="svg" class="services-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M14 2V8H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M9 15L11 17L15 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <div class="services-item-content">
+              <h3>תוכנית תרגול ממוקדת</h3>
+              <p>בניית מסלול אישי שמתאים למטרות שלך - מהופעות ועד הקלטות סטודיו.</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="#contact" class="btn-primary">שאל על שיעורים</a>
+      </div>
+
+      <div class="services-block-image">
+        <img data-placeholder="services-section-image-1" data-context="A professional music teacher giving a private lesson on a musical instrument in a bright, clean music studio. The scene shows warm interaction between teacher and student, with the instrument prominently featured. Natural lighting, professional photography style, suitable for a premium music store website." width="600" height="700" src="/assets/site-services-section-image-1.webp" alt="שיעורי נגינה פרטיים עם מורים מקצועיים">
+      </div>
+    </div>
+
+    <!-- Repairs & Setup Block -->
+    <div class="services-block services-block-reverse">
+      <div class="services-block-content">
+        <h2>תיקונים ואיזון כלי נגינה</h2>
+        <p>שירות מקצועי לתחזוקה ותיקון כלי נגינה. טכנאים מנוסים עם כלים מתקדמים דואגים שהכלי שלך יישאר במצב מושלם.</p>
+        
+        <div class="services-list">
+          <div class="services-item">
+            <svg data-element-type="icon" data-icon-type="svg" class="services-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14.7 6.3C15.1 5.9 15.1 5.3 14.7 4.9L13.1 3.3C12.7 2.9 12.1 2.9 11.7 3.3L10.3 4.7L13.3 7.7L14.7 6.3Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M4 16L9 15L12 12L10 10L7 13L6 18L4 16Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M19 21L21 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <div class="services-item-content">
+              <h3>כוונון לנגינה מושלמת</h3>
+              <p>התאמת מיתרים, גשרים ופריטים לנגינה נוחה ואיכות צליל מיטבית.</p>
+            </div>
+          </div>
+
+          <div class="services-item">
+            <svg data-element-type="icon" data-icon-type="svg" class="services-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"></circle>
+              <path d="M12 1V3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M12 21V23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M4.22 4.22L5.64 5.64" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M18.36 18.36L19.78 19.78" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M1 12H3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M21 12H23" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M4.22 19.78L5.64 18.36" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+            <div class="services-item-content">
+              <h3>בדיקת אלקטרוניקה</h3>
+              <p>אבחון ותיקון מערכות אלקטרוניות, פיקאפים וחיבורים לכלי חשמליים.</p>
+            </div>
+          </div>
+
+          <div class="services-item">
+            <svg data-element-type="icon" data-icon-type="svg" class="services-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 11.08V12C21.9988 14.1564 21.3005 16.2547 20.0093 17.9818C18.7182 19.709 16.9033 20.9725 14.8354 21.5839C12.7674 22.1953 10.5573 22.1219 8.53447 21.3746C6.51168 20.6273 4.78465 19.2461 3.61096 17.4371C2.43727 15.628 1.87979 13.4881 2.02168 11.3363C2.16356 9.18455 2.99721 7.13631 4.39828 5.49706C5.79935 3.85781 7.69279 2.71537 9.79619 2.24013C11.8996 1.7649 14.1003 1.98232 16.07 2.85999" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M22 4L12 14.01L9 11.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <div class="services-item-content">
+              <h3>תחזוקה עונתית</h3>
+              <p>שמירה על הכלי במצב מעולה לאורך זמן עם בדיקות תקופתיות וטיפולים מונעים.</p>
+            </div>
+          </div>
+        </div>
+
+        <a href="#contact" class="btn-secondary">שאל על תיקונים</a>
+      </div>
+
+      <div class="services-block-image">
+        <img data-placeholder="services-section-image-2" data-context="A professional luthier or instrument technician carefully repairing or setting up a musical instrument in a well-lit workshop. Tools and equipment visible in background. Clean, professional environment showing craftsmanship and attention to detail. Suitable for a premium music store website." width="600" height="700" src="/assets/site-services-section-image-2.webp" alt="תיקון ואיזון כלי נגינה מקצועי">
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Turn Divider -->
+  <div class="services-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" class="services-divider-svg" viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="services-shadow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3"></feGaussianBlur>
+          <feOffset dx="2" dy="3" result="offsetblur"></feOffset>
+          <feComponentTransfer>
+            <feFuncA type="linear" slope="0.3"></feFuncA>
+          </feComponentTransfer>
+          <feMerge>
+            <feMergeNode></feMergeNode>
+            <feMergeNode in="SourceGraphic"></feMergeNode>
+          </feMerge>
+        </filter>
+      </defs>
+      <!-- Page curl backplate -->
+      <path d="M840,60 Q900,55 960,65 L960,120 L840,120 Z" fill="#F2EEE7" filter="url(#services-shadow)" opacity="0.85"></path>
+      <!-- Main page edge -->
+      <path d="M0,120 L0,0 L1200,0 L1200,50 Q1140,45 1080,52 Q1020,58 960,65 Q900,55 840,60 L840,120 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="services-process-section" data-layout-spec="שירותים-process">
+  <div class="services-process-container">
+    <div class="services-process-header">
+      <h2>איך אנחנו עובדים</h2>
+      <p>אנחנו מאמינים בשקיפות ובבהירות בכל שלב. התהליך שלנו מותאם כדי להבטיח שתקבלו את המענה המדויק ביותר לצרכים שלכם, עם תשומת לב מקצועית ואכפתיות אמיתית.</p>
+    </div>
+
+    <div class="services-process-steps">
+      <div class="services-process-step">
+        <div class="services-process-step-content">
+          <h3>שתפו את המטרה שלכם</h3>
+          <p>ספרו לנו על הצורך שלכם – סוג הכלי, רמת הניסיון, והתקציב. אנחנו מקשיבים בעיון כדי להבין בדיוק מה יתאים לכם.</p>
+        </div>
+      </div>
+
+      <div class="services-process-connector" aria-hidden="true"></div>
+
+      <div class="services-process-step">
+        <div class="services-process-step-content">
+          <h3>אנחנו ממליצים על אפשרויות</h3>
+          <p>על בסיס הניסיון שלנו, נציג בפניכם מספר אפשרויות מתאימות – כלים, אביזרים, ושירותים נלווים שיתאימו בדיוק לצרכים שלכם.</p>
+        </div>
+      </div>
+
+      <div class="services-process-connector" aria-hidden="true"></div>
+
+      <div class="services-process-step">
+        <div class="services-process-step-content">
+          <h3>אנחנו משכללים ומתאימים</h3>
+          <p>נעבוד יחד על התאמה מדויקת – ניסיון הכלי, התאמות אישיות, והכנה מלאה לפני שהכלי יוצא מהחנות.</p>
+        </div>
+      </div>
+
+      <div class="services-process-connector" aria-hidden="true"></div>
+
+      <div class="services-process-step">
+        <div class="services-process-step-content">
+          <h3>אתם יוצאים עם ביטחון</h3>
+          <p>תקבלו הדרכה מלאה, אחריות, ותמיכה מתמשכת. אנחנו כאן גם אחרי הרכישה – לכל שאלה ולכל צורך.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="services-process-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,40 L0,20 L480,20 L485,18 L490,20 L495,18 L500,20 L700,20 L705,18 L710,20 L715,18 L720,20 L1200,20 L1200,40 Z" fill="var(--accent)" opacity="0.3"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="services-reviews-section" data-layout-spec="שירותים-reviews">
+  <div class="services-reviews-container">
+    <div class="services-reviews-header">
+      <h2>שירות שמרגיש אישי</h2>
+      <p>אנחנו מאמינים בתקשורת חמה ובתשומת לב לכל פרט – כי כל כלי נגינה מספר סיפור משלו.</p>
+    </div>
+
+    <div class="services-reviews-grid">
+      <div class="services-review-card">
+        <p class="services-review-quote">"השיעורים עם המורה שהמליצו לי כאן שינו לגמרי את הגישה שלי לנגינה. התקדמתי יותר בחודשיים מאשר בשנה שעברה."</p>
+        <p class="services-review-attribution">— דניאל כהן, תלמיד גיטרה</p>
+      </div>
+
+      <div class="services-review-card">
+        <p class="services-review-quote">"הגיטרה שלי חזרה מהתיקון כמו חדשה. זמן התגובה היה מהיר והתקשורת ברורה לאורך כל הדרך. ממליץ בחום!"</p>
+        <p class="services-review-attribution">— מיכל לוי, מוזיקאית מקצועית</p>
+      </div>
+
+      <div class="services-review-card">
+        <p class="services-review-quote">"ההתאמה שעשו לכינור שלי הייתה מדויקת לחלוטין. הם באמת הקשיבו למה שחיפשתי והתוצאה מושלמת."</p>
+        <p class="services-review-attribution">— יונתן שפירא, כנר</p>
+      </div>
+
+      <div class="services-review-card">
+        <p class="services-review-quote">"המלצה על סקסופון למתחילים הייתה בול – בדיוק מה שהייתי צריך. הם הבינו את התקציב והצרכים שלי והציעו פתרון מושלם."</p>
+        <p class="services-review-attribution">— עומר דהן, נגן סקסופון</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="services-reviews-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="services-reviews-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#1F4B99;stop-opacity:0.95"></stop>
+          <stop offset="100%" style="stop-color:#0B1220;stop-opacity:1"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M0,120 L0,0 L1200,0 L1200,120 Z" fill="url(#services-reviews-gradient)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="services-cta-section" data-layout-spec="שירותים-cta">
+  <div class="services-cta-container">
+    <h2 class="services-cta-title">מוכנים להתחיל — או לשכלל — את הצליל שלכם?</h2>
+    <p class="services-cta-description">נשמח לשמוע על הכלי שלכם ועל המטרות שלכם. צרו קשר עכשיו ונעזור לכם למצוא את הפתרון המושלם.</p>
+    <div class="services-cta-buttons">
+      <a href="/contact" class="btn-primary services-cta-btn">צרו קשר</a>
+      <a href="/products" class="btn-secondary services-cta-btn">עיינו בקטגוריות כלי הנגינה</a>
+    </div>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer"><div class="footer-container"><div class="footer-grid"><div class="footer-section footer-about"><img src="/assets/kolen-logo.webp" alt="Kolen" class="logo" /><p class="footer-description">המקום שלך לכלי נגינה איכוtiים ושירות מקצועי. אנחנו כאן כדי לעזור לך למצוא את הכלי המושלם.</p></div><div class="footer-section footer-links"><h3 class="footer-title">קישורים מהירים</h3><ul class="footer-menu"><li><a href="/instruments">כלים</a></li><li><a href="/services">שירותים</a></li><li><a href="/contact">צור קשר</a></li></ul></div><div class="footer-section footer-contact"><h3 class="footer-title">יצירת קשר</h3><ul class="contact-list"><li><i class="fas fa-envelope"></i><a href="mailto:[business_email]">[business_email]</a></li><li><i class="fas fa-phone"></i><a href="tel:[business_phone]">[business_phone]</a></li><li><a href="/"><i class="fas fa-map-marker-alt"></i><span>[business_address]</span></a></li></ul></div><div class="footer-section footer-social"><h3 class="footer-title">עקבו אחרינו</h3><div class="social-links"><a href="[facebook_handle]" aria-label="Facebook" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a><a href="[instagram_handle]" aria-label="Instagram" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a><a href="[whatsapp_handle]" aria-label="WhatsApp" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i></a></div></div></div><div class="footer-bottom"><div class="footer-legal"><a href="/privacy">מדיניות פרטיות</a><span class="separator">|</span><a href="/terms">תנאי שימוש</a><span class="separator">|</span>
+            <a href="/return-policy" aria-label="מדיניות החזרות">
+              מדיניות החזרות
+            </a><span class="separator">|</span><a href="/accessibility">הצהרת נגישות</a></div><div class="footer-copyright"><p>© 2026 Kolen. כל הזכויות שמורות.</p></div><div class="footer-attribution"><a href="https://zappy5.com" target="_blank" class="zappy-attribution">Generated by Zappy</a></div></div></div></footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <script src="/script.js"></script>
+
+    <div data-integration="accessibility:toolbar"></div>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body></html>

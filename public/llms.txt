@@ -1,0 +1,55 @@
+# Business — Generative Engine Optimization Map
+
+---
+
+## Pages
+
+### בית
+https://example.com
+
+### כלים
+https://example.com/instruments
+
+### שירותים
+https://example.com/services
+
+### צור קשר
+https://example.com/contact
+
+### Products
+https://example.com/products
+המוצרים שלנו - Kolen
+
+### Product Detail
+https://example.com/product/:slug
+פרטי המוצר - Kolen
+
+### Category
+https://example.com/category/:slug
+מוצרים - Kolen
+
+## Legal & Policy
+
+### Privacy Policy
+https://example.com/privacy
+Information about how user data is collected, stored, and protected.
+
+### Terms & Conditions
+https://example.com/terms
+Legal terms describing service usage, rights, and policies.
+
+### Accessibility Statement
+https://example.com/accessibility
+Information about WCAG compliance and accessibility features.
+
+---
+
+# Business Context (for LLM understanding)
+
+## About Business
+---
+
+# Additional Resources
+
+- **Sitemap**: https://example.com/sitemap.xml
+- **Robots.txt**: https://example.com/robots.txt
